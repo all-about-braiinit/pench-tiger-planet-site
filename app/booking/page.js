@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle, Calendar, Users, MessageSquare } from 'lucide-react'
 
@@ -8,6 +9,31 @@ const roomOptions = [
   { value: 'garden-view', label: 'Garden View Room (₹3,200/night)' },
   { value: 'lake-view', label: 'Lake View Room (₹3,800/night)' },
 ]
+
+/* ─── reusable reveal component ────────────────────────────────────────────── */
+function Reveal({ children, delay = 0, direction = 'up', className = '' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const from = direction === 'up' ? { opacity: 0, y: 50 } : direction === 'left' ? { opacity: 0, x: -50 } : { opacity: 0, x: 50 }
+  return (
+    <motion.div ref={ref} initial={from} animate={isInView ? { opacity: 1, y: 0, x: 0 } : from}
+      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+
+function StaggerParent({ children, className = '' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  return (
+    <motion.div ref={ref} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.05 } } }}
+      initial="hidden" animate={isInView ? 'visible' : 'hidden'} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+const staggerItem = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }
 
 export default function BookingPage() {
   const [form, setForm] = useState({
@@ -78,30 +104,34 @@ export default function BookingPage() {
       >
         <div className="absolute inset-0 bg-forest-950/80" />
         <div className="relative z-10 text-center px-4">
-          <p className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Reserve Your Stay</p>
-          <h1 className="font-heading text-5xl md:text-7xl text-white font-bold">Book Now</h1>
-          <div className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+            className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Reserve Your Stay</motion.p>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-heading text-5xl md:text-7xl text-white font-bold">Book Now</motion.h1>
+          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
       </section>
 
       {/* Steps */}
       <section className="py-10 bg-forest-900 border-b border-forest-700">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <StaggerParent className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
               { Icon: Calendar, title: 'Choose Dates', sub: 'Select your stay period' },
               { Icon: Users, title: 'Pick Room', sub: 'Garden or Lake View' },
               { Icon: MessageSquare, title: 'Confirm', sub: 'We contact you within 2 hrs' },
             ].map(({ Icon, title, sub }, i) => (
-              <div key={title} className="text-center">
-                <div className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center mx-auto mb-2">
+              <motion.div key={title} variants={staggerItem} whileHover={{ y: -5 }} className="text-center">
+                <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}
+                  className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center mx-auto mb-2">
                   <Icon className="text-gold-400" size={18} />
-                </div>
+                </motion.div>
                 <p className="text-cream-100 text-xs font-medium">{title}</p>
                 <p className="text-cream-500 text-[10px]">{sub}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerParent>
         </div>
       </section>
 
@@ -109,134 +139,151 @@ export default function BookingPage() {
       <section className="py-24 bg-forest-950">
         <div className="container mx-auto px-6">
           {status === 'success' ? (
-            <div className="max-w-lg mx-auto text-center py-16 animate-up">
-              <CheckCircle className="text-gold-400 mx-auto mb-5" size={64} />
-              <h2 className="font-heading text-4xl text-cream-100 font-bold mb-4">Booking Received!</h2>
-              <p className="text-cream-300 text-sm leading-relaxed mb-4">
-                Thank you for choosing Pench Tiger Planet. We have received your booking inquiry and our team
-                will contact you within 2 hours to confirm availability and finalize your reservation.
-              </p>
-              {bookingId && (
-                <div className="bg-forest-900 border border-forest-700 px-6 py-4 mb-8">
-                  <p className="text-cream-400 text-xs mb-1">Your Booking Reference</p>
-                  <p className="text-gold-400 font-heading font-bold text-xl tracking-wider">{bookingId.slice(0, 8).toUpperCase()}</p>
+            <Reveal>
+              <div className="max-w-lg mx-auto text-center py-16">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}>
+                  <CheckCircle className="text-gold-400 mx-auto mb-5" size={64} />
+                </motion.div>
+                <h2 className="font-heading text-4xl text-cream-100 font-bold mb-4">Booking Received!</h2>
+                <p className="text-cream-300 text-sm leading-relaxed mb-4">
+                  Thank you for choosing Pench Tiger Planet. We have received your booking inquiry and our team
+                  will contact you within 2 hours to confirm availability and finalize your reservation.
+                </p>
+                {bookingId && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                    className="bg-forest-900 border border-forest-700 px-6 py-4 mb-8">
+                    <p className="text-cream-400 text-xs mb-1">Your Booking Reference</p>
+                    <p className="text-gold-400 font-heading font-bold text-xl tracking-wider">{bookingId.slice(0, 8).toUpperCase()}</p>
+                  </motion.div>
+                )}
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                    <Link href="/" className="btn-gold px-8 py-3 bg-gold-500 text-forest-950 font-bold text-xs tracking-widest uppercase hover:bg-gold-400 transition-all">
+                      Back to Home
+                    </Link>
+                  </motion.div>
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}
+                    onClick={() => setStatus('idle')} className="px-8 py-3 border border-forest-600 text-cream-300 text-xs tracking-widest uppercase hover:border-gold-400 hover:text-gold-400 transition-all">
+                    New Booking
+                  </motion.button>
                 </div>
-              )}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link href="/" className="btn-gold px-8 py-3 bg-gold-500 text-forest-950 font-bold text-xs tracking-widest uppercase hover:bg-gold-400 transition-all">
-                  Back to Home
-                </Link>
-                <button onClick={() => setStatus('idle')} className="px-8 py-3 border border-forest-600 text-cream-300 text-xs tracking-widest uppercase hover:border-gold-400 hover:text-gold-400 transition-all">
-                  New Booking
-                </button>
               </div>
-            </div>
+            </Reveal>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Form */}
-              <div className="lg:col-span-2 animate-up">
-                <h2 className="font-heading text-3xl text-cream-100 font-semibold mb-8">Booking Inquiry</h2>
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Personal Info */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Full Name *</label>
-                      <input name="name" value={form.name} onChange={handleChange} required placeholder="Your Full Name" className={inputCls} />
+              <Reveal direction="left" className="lg:col-span-2">
+                <div>
+                  <h2 className="font-heading text-3xl text-cream-100 font-semibold mb-8">Booking Inquiry</h2>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Personal Info */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Full Name *</label>
+                        <input name="name" value={form.name} onChange={handleChange} required placeholder="Your Full Name" className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Email *</label>
+                        <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" className={inputCls} />
+                      </div>
                     </div>
                     <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Email *</label>
-                      <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" className={inputCls} />
+                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Phone Number *</label>
+                      <input name="phone" value={form.phone} onChange={handleChange} required placeholder="+91 99999 99999" className={inputCls} />
                     </div>
-                  </div>
-                  <div>
-                    <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Phone Number *</label>
-                    <input name="phone" value={form.phone} onChange={handleChange} required placeholder="+91 99999 99999" className={inputCls} />
-                  </div>
 
-                  {/* Dates */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Check-in Date *</label>
-                      <input name="checkIn" type="date" value={form.checkIn} onChange={handleChange} required className={inputCls} />
+                    {/* Dates */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Check-in Date *</label>
+                        <input name="checkIn" type="date" value={form.checkIn} onChange={handleChange} required className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Check-out Date *</label>
+                        <input name="checkOut" type="date" value={form.checkOut} onChange={handleChange} required className={inputCls} />
+                      </div>
                     </div>
-                    <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Check-out Date *</label>
-                      <input name="checkOut" type="date" value={form.checkOut} onChange={handleChange} required className={inputCls} />
-                    </div>
-                  </div>
 
-                  {/* Room & Guests */}
-                  <div>
-                    <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Room Preference</label>
-                    <select name="roomType" value={form.roomType} onChange={handleChange} className={selectCls}>
-                      {roomOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
+                    {/* Room & Guests */}
                     <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Adults</label>
-                      <select name="adults" value={form.adults} onChange={handleChange} className={selectCls}>
-                        {['1', '2', '3', '4', '5'].map((n) => <option key={n} value={n}>{n} Adult{n !== '1' ? 's' : ''}</option>)}
+                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Room Preference</label>
+                      <select name="roomType" value={form.roomType} onChange={handleChange} className={selectCls}>
+                        {roomOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                       </select>
                     </div>
-                    <div>
-                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Children</label>
-                      <select name="children" value={form.children} onChange={handleChange} className={selectCls}>
-                        {['0', '1', '2', '3', '4'].map((n) => <option key={n} value={n}>{n} Child{n !== '1' ? 'ren' : ''}</option>)}
-                      </select>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Adults</label>
+                        <select name="adults" value={form.adults} onChange={handleChange} className={selectCls}>
+                          {['1', '2', '3', '4', '5'].map((n) => <option key={n} value={n}>{n} Adult{n !== '1' ? 's' : ''}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Children</label>
+                        <select name="children" value={form.children} onChange={handleChange} className={selectCls}>
+                          {['0', '1', '2', '3', '4'].map((n) => <option key={n} value={n}>{n} Child{n !== '1' ? 'ren' : ''}</option>)}
+                        </select>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Special Requests */}
-                  <div>
-                    <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Special Requests</label>
-                    <textarea name="specialRequests" value={form.specialRequests} onChange={handleChange} rows={4}
-                      placeholder="Safari arrangements, dietary requirements, special occasions..."
-                      className={`${inputCls} resize-none`} />
-                  </div>
+                    {/* Special Requests */}
+                    <div>
+                      <label className="text-gold-400 text-[10px] tracking-[0.2em] uppercase mb-2 block">Special Requests</label>
+                      <textarea name="specialRequests" value={form.specialRequests} onChange={handleChange} rows={4}
+                        placeholder="Safari arrangements, dietary requirements, special occasions..."
+                        className={`${inputCls} resize-none`} />
+                    </div>
 
-                  {status === 'error' && (
-                    <p className="text-red-400 text-xs">Something went wrong. Please try again or call us at +91 9522066101.</p>
-                  )}
+                    {status === 'error' && (
+                      <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-xs">Something went wrong. Please try again or call us at +91 9522066101.</motion.p>
+                    )}
 
-                  <button type="submit" disabled={status === 'loading'} className="btn-gold w-full py-4 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.15em] uppercase hover:bg-gold-400 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
-                    {status === 'loading' ? 'Submitting...' : <><span>Submit Booking Inquiry</span> <ArrowRight size={14} /></>}
-                  </button>
+                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                      type="submit" disabled={status === 'loading'} className="btn-gold w-full py-4 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.15em] uppercase hover:bg-gold-400 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
+                      {status === 'loading' ? 'Submitting...' : <><span>Submit Booking Inquiry</span> <ArrowRight size={14} /></>}
+                    </motion.button>
 
-                  <p className="text-cream-500 text-xs text-center">
-                    This is an inquiry form. A team member will contact you to confirm. No payment required now.
-                  </p>
-                </form>
-              </div>
+                    <p className="text-cream-500 text-xs text-center">
+                      This is an inquiry form. A team member will contact you to confirm. No payment required now.
+                    </p>
+                  </form>
+                </div>
+              </Reveal>
 
               {/* Info Panel */}
-              <div className="animate-up">
-                <div className="bg-forest-900 border border-forest-700 p-6 mb-6">
-                  <h3 className="font-heading text-xl text-cream-100 font-semibold mb-4">Booking Info</h3>
-                  <div className="space-y-4 text-sm">
-                    {[
-                      ['Check-in Time', '12:00 PM onwards'],
-                      ['Check-out Time', 'By 11:00 AM'],
-                      ['Breakfast', 'Complimentary'],
-                      ['Safari', 'Can be arranged'],
-                      ['Pets', 'Not allowed'],
-                    ].map(([k, v]) => (
-                      <div key={k} className="flex justify-between border-b border-forest-800 pb-3">
-                        <span className="text-cream-400">{k}</span>
-                        <span className="text-cream-100 text-right">{v}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <Reveal direction="right" delay={0.2}>
+                <div>
+                  <motion.div whileHover={{ borderColor: 'rgba(212, 175, 55, 0.3)' }}
+                    className="bg-forest-900 border border-forest-700 p-6 mb-6 transition-all">
+                    <h3 className="font-heading text-xl text-cream-100 font-semibold mb-4">Booking Info</h3>
+                    <div className="space-y-4 text-sm">
+                      {[
+                        ['Check-in Time', '12:00 PM onwards'],
+                        ['Check-out Time', 'By 11:00 AM'],
+                        ['Breakfast', 'Complimentary'],
+                        ['Safari', 'Can be arranged'],
+                        ['Pets', 'Not allowed'],
+                      ].map(([k, v]) => (
+                        <div key={k} className="flex justify-between border-b border-forest-800 pb-3">
+                          <span className="text-cream-400">{k}</span>
+                          <span className="text-cream-100 text-right">{v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
 
-                <div className="bg-gold-500/10 border border-gold-500/30 p-5">
-                  <h4 className="text-gold-400 font-heading font-semibold mb-3">Need Help?</h4>
-                  <p className="text-cream-300 text-sm mb-4">Our team is available 8 AM – 8 PM to assist with your booking.</p>
-                  <a href="tel:+919522066101" className="block text-center py-2.5 border border-gold-400 text-gold-400 text-xs font-bold tracking-widest uppercase hover:bg-gold-500 hover:text-forest-950 transition-all">
-                    +91 9522066101
-                  </a>
+                  <motion.div whileHover={{ scale: 1.02, borderColor: 'rgba(212, 175, 55, 0.5)' }}
+                    className="bg-gold-500/10 border border-gold-500/30 p-5 transition-all">
+                    <h4 className="text-gold-400 font-heading font-semibold mb-3">Need Help?</h4>
+                    <p className="text-cream-300 text-sm mb-4">Our team is available 8 AM – 8 PM to assist with your booking.</p>
+                    <motion.a whileHover={{ scale: 1.05, backgroundColor: '#d4af37' }} whileTap={{ scale: 0.98 }}
+                      href="tel:+919522066101" className="block text-center py-2.5 border border-gold-400 text-gold-400 text-xs font-bold tracking-widest uppercase hover:text-forest-950 transition-all">
+                      +91 9522066101
+                    </motion.a>
+                  </motion.div>
                 </div>
-              </div>
+              </Reveal>
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { TreePine, Binoculars, Heart, Award, Star, Users, ArrowRight } from 'lucide-react'
 
@@ -18,6 +19,31 @@ const facts = [
   { num: '50+', label: 'Tiger Population' },
   { num: '4 km', label: 'From Turiya Gate' },
 ]
+
+/* ─── reusable reveal component ──────────────────────── */
+function Reveal({ children, delay = 0, direction = 'up', className = '' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const from = direction === 'up' ? { opacity: 0, y: 50 } : direction === 'left' ? { opacity: 0, x: -50 } : { opacity: 0, x: 50 }
+  return (
+    <motion.div ref={ref} initial={from} animate={isInView ? { opacity: 1, y: 0, x: 0 } : from}
+      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+
+function StaggerParent({ children, className = '' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  return (
+    <motion.div ref={ref} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } } }}
+      initial="hidden" animate={isInView ? 'visible' : 'hidden'} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+const staggerItem = { hidden: { opacity: 0, y: 30, scale: 0.96 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }
 
 export default function AboutPage() {
   useEffect(() => {
@@ -48,9 +74,12 @@ export default function AboutPage() {
       >
         <div className="absolute inset-0 bg-forest-950/75" />
         <div className="relative z-10 text-center px-4">
-          <p className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Our Story</p>
-          <h1 className="font-heading text-5xl md:text-7xl text-white font-bold">About Us</h1>
-          <div className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+            className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Our Story</motion.p>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-heading text-5xl md:text-7xl text-white font-bold">About Us</motion.h1>
+          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
       </section>
 
@@ -58,7 +87,7 @@ export default function AboutPage() {
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="animate-up">
+            <Reveal direction="left">
               <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-4 block">Who We Are</span>
               <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold mb-6 leading-tight">
                 Born from a Love<br />
@@ -80,15 +109,20 @@ export default function AboutPage() {
                 we ensure every moment of your stay exceeds expectations. From arranging early-morning safari
                 pickups to serving home-cooked meals with local flavours — we are here for you.
               </p>
-              <Link href="/booking" className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.2em] uppercase hover:bg-gold-400 transition-all">
-                Book Your Stay <ArrowRight size={14} />
-              </Link>
-            </div>
-            <div className="animate-up relative">
-              <img src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg" alt="Pench Tiger Planet" className="w-full aspect-[4/5] object-cover" />
-              <div className="absolute -top-3 -right-3 w-16 h-16 border-t-2 border-r-2 border-gold-400" />
-              <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-2 border-l-2 border-gold-400" />
-            </div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <Link href="/booking" className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.2em] uppercase hover:bg-gold-400 transition-all group">
+                  Book Your Stay <motion.span className="group-hover:translate-x-1 transition-transform"><ArrowRight size={14} /></motion.span>
+                </Link>
+              </motion.div>
+            </Reveal>
+            <Reveal direction="right" delay={0.2}>
+              <div className="relative">
+                <motion.img whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}
+                  src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg" alt="Pench Tiger Planet" className="w-full aspect-[4/5] object-cover" />
+                <div className="absolute -top-3 -right-3 w-16 h-16 border-t-2 border-r-2 border-gold-400" />
+                <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-2 border-l-2 border-gold-400" />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -96,22 +130,24 @@ export default function AboutPage() {
       {/* Why Choose Us */}
       <section className="py-24 lg:py-32 bg-forest-900">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 animate-up">
+          <Reveal className="text-center mb-16">
             <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">Why Us</span>
             <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold">Why Choose Pench Tiger Planet</h2>
             <div className="w-16 h-0.5 bg-gold-400 mx-auto mt-6" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          </Reveal>
+          <StaggerParent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map(({ Icon, title, desc }) => (
-              <div key={title} className="animate-up p-6 border border-forest-700 hover:border-gold-500/40 transition-all duration-300 bg-forest-800/50 group">
-                <div className="w-12 h-12 bg-forest-700 border border-forest-600 flex items-center justify-center mb-4 group-hover:border-gold-500 transition-colors">
+              <motion.div key={title} variants={staggerItem} whileHover={{ y: -8, borderColor: 'rgba(212, 175, 55, 0.4)' }}
+                className="p-6 border border-forest-700 transition-all duration-300 bg-forest-800/50 group">
+                <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}
+                  className="w-12 h-12 bg-forest-700 border border-forest-600 flex items-center justify-center mb-4 group-hover:border-gold-500 transition-colors">
                   <Icon className="text-gold-400" size={22} />
-                </div>
+                </motion.div>
                 <h3 className="text-cream-100 font-heading font-semibold text-lg mb-3">{title}</h3>
                 <p className="text-cream-400 text-sm leading-relaxed">{desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerParent>
         </div>
       </section>
 
@@ -122,31 +158,31 @@ export default function AboutPage() {
       >
         <div className="absolute inset-0 bg-forest-950/85" />
         <div className="relative container mx-auto px-6">
-          <div className="text-center mb-14 animate-up">
+          <Reveal className="text-center mb-14">
             <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">The Reserve</span>
             <h2 className="font-heading text-3xl md:text-4xl text-cream-100 font-bold">Pench Tiger Reserve Facts</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          </Reveal>
+          <StaggerParent className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {facts.map(({ num, label }) => (
-              <div key={label} className="animate-up">
+              <motion.div key={label} variants={staggerItem} whileHover={{ scale: 1.08 }} className="cursor-default">
                 <p className="font-heading text-4xl md:text-5xl font-bold text-gold-400 mb-2">{num}</p>
                 <p className="text-cream-300 text-xs tracking-[0.15em] uppercase">{label}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
-          <div className="mt-16 max-w-3xl mx-auto animate-up">
+          </StaggerParent>
+          <Reveal delay={0.4} className="mt-16 max-w-3xl mx-auto">
             <p className="text-cream-300 text-sm leading-relaxed text-center">
               Pench Tiger Reserve, spread across Seoni and Chhindwara districts of Madhya Pradesh, is one of India&apos;s finest national parks.
               Famous as the inspiration for Rudyard Kipling&apos;s &ldquo;The Jungle Book&rdquo;, it is home to tigers, leopards,
               wild dogs, over 250 species of birds and a rich biodiversity that makes every safari a unique adventure.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-24 bg-forest-950">
-        <div className="container mx-auto px-6 text-center animate-up">
+        <Reveal className="container mx-auto px-6 text-center">
           <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold mb-6">
             Ready to Experience the <span className="text-gold-400">Magic of Pench?</span>
           </h2>
@@ -154,14 +190,18 @@ export default function AboutPage() {
             Book your stay and let us show you why Pench Tiger Planet is the most-loved homestay near Pench Tiger Reserve.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/booking" className="btn-gold inline-flex items-center gap-2 justify-center px-10 py-4 bg-gold-500 text-forest-950 font-bold tracking-[0.15em] uppercase text-xs hover:bg-gold-400 transition-all">
-              Book Now <ArrowRight size={14} />
-            </Link>
-            <Link href="/contact" className="inline-flex items-center justify-center px-10 py-4 border border-forest-700 text-cream-200 tracking-[0.15em] uppercase text-xs hover:border-gold-400 hover:text-gold-400 transition-all">
-              Get In Touch
-            </Link>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Link href="/booking" className="btn-gold inline-flex items-center gap-2 justify-center px-10 py-4 bg-gold-500 text-forest-950 font-bold tracking-[0.15em] uppercase text-xs hover:bg-gold-400 transition-all group">
+                Book Now <motion.span className="group-hover:translate-x-1 transition-transform"><ArrowRight size={14} /></motion.span>
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Link href="/contact" className="inline-flex items-center justify-center px-10 py-4 border border-forest-700 text-cream-200 tracking-[0.15em] uppercase text-xs hover:border-gold-400 hover:text-gold-400 transition-all">
+                Get In Touch
+              </Link>
+            </motion.div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   )

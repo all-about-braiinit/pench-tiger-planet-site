@@ -2,6 +2,20 @@
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 
+const variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -18,
+    transition: { duration: 0.28, ease: 'easeIn' },
+  },
+}
+
 export default function Template({ children }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -11,14 +25,10 @@ export default function Template({ children }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -16 }}
-      transition={{
-        type: 'tween',
-        ease: [0.22, 1, 0.36, 1],
-        duration: 0.45,
-      }}
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
     >
       {children}
     </motion.div>
