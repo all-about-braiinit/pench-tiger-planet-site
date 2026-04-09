@@ -1,0 +1,171 @@
+'use client'
+import { useEffect } from 'react'
+import Link from 'next/link'
+import { Check, ArrowRight, BedDouble, Wifi, Tv, UtensilsCrossed, Coffee, Leaf } from 'lucide-react'
+
+const amenities = [
+  { Icon: BedDouble, title: 'King Size Bed' },
+  { Icon: Wifi, title: 'Free WiFi' },
+  { Icon: Tv, title: 'Smart TV' },
+  { Icon: UtensilsCrossed, title: 'Room Service' },
+  { Icon: Coffee, title: 'Morning Tea' },
+  { Icon: Leaf, title: 'Garden View' },
+]
+
+const galleryImages = [1, 2, 3, 4, 5, 6].map(
+  (n) => `https://www.penchtigerplanet.com/assets/img/gallery/${n}.jpg`
+)
+
+export default function GardenViewRoomPage() {
+  useEffect(() => {
+    const init = async () => {
+      const gsapMod = await import('gsap')
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      const gsap = gsapMod.gsap || gsapMod.default
+      gsap.registerPlugin(ScrollTrigger)
+      const ctx = gsap.context(() => {
+        gsap.utils.toArray('.animate-up').forEach((el) => {
+          gsap.fromTo(el, { opacity: 0, y: 55 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 88%', once: true } })
+        })
+      })
+      return () => ctx.revert()
+    }
+    let cleanup
+    init().then((fn) => { cleanup = fn })
+    return () => { if (cleanup) cleanup() }
+  }, [])
+
+  return (
+    <main>
+      {/* Page Hero */}
+      <section
+        className="relative h-[65vh] min-h-[420px] flex items-end overflow-hidden"
+        style={{ backgroundImage: 'url(https://www.penchtigerplanet.com/assets/img/room/1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,26,17,0.3) 0%, rgba(10,26,17,0.9) 100%)' }} />
+        <div className="relative z-10 container mx-auto px-6 pb-14">
+          <div className="flex items-center gap-2 text-cream-400 text-xs mb-4">
+            <Link href="/" className="hover:text-gold-400 transition-colors">Home</Link>
+            <span>/</span>
+            <Link href="/rooms" className="hover:text-gold-400 transition-colors">Rooms</Link>
+            <span>/</span>
+            <span className="text-gold-400">Garden View Room</span>
+          </div>
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+            <div>
+              <span className="text-gold-400 text-[10px] tracking-[0.4em] uppercase mb-2 block">Classic Luxury</span>
+              <h1 className="font-heading text-5xl md:text-6xl text-white font-bold">Garden View Room</h1>
+            </div>
+            <div className="text-right">
+              <p className="text-gold-400 font-heading text-4xl font-bold">₹3,200</p>
+              <p className="text-cream-400 text-xs tracking-widest uppercase">Per Night</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="py-24 bg-forest-950">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Description */}
+            <div className="lg:col-span-2 animate-up">
+              <h2 className="font-heading text-3xl text-cream-100 font-semibold mb-6">Room Overview</h2>
+              <p className="text-cream-300 text-sm leading-relaxed mb-5">
+                The Garden View Rooms at Pench Tiger Planet are a classic example of modern luxury and class.
+                With fully furnished spacious interiors, every detail has been thoughtfully designed to provide
+                you with maximum comfort while you are surrounded by the serene beauty of nature.
+              </p>
+              <p className="text-cream-300 text-sm leading-relaxed mb-5">
+                Wake up to the gentle sounds of birdsong and a view of our lush garden stretching towards the
+                treeline. Our attentive staff are always on hand to ensure your every need is met — from early
+                morning tea to safari arrangements.
+              </p>
+              <p className="text-cream-300 text-sm leading-relaxed mb-10">
+                Whether you&apos;re visiting for the thrill of the jungle safari or simply to unwind in nature,
+                the Garden View Room offers the perfect sanctuary to return to after each adventure.
+              </p>
+
+              <h3 className="font-heading text-2xl text-cream-100 font-semibold mb-5">What&apos;s Included</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+                {[
+                  'King Size Bed', 'Garden View', 'En-suite Bathroom', 'Air Conditioning',
+                  'Free WiFi', 'Smart Television', 'Room Service', 'Complimentary Breakfast',
+                  'Housekeeping', 'Laundry on Request', 'Doctor on Call', 'Free Parking',
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-gold-500/20 border border-gold-500/40 flex items-center justify-center shrink-0">
+                      <Check className="text-gold-400" size={12} />
+                    </div>
+                    <span className="text-cream-300 text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gallery */}
+              <h3 className="font-heading text-2xl text-cream-100 font-semibold mb-5">Room Gallery</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {galleryImages.slice(0, 6).map((img, idx) => (
+                  <div key={idx} className="overflow-hidden aspect-square group">
+                    <img src={img} alt={`Garden View Room ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Booking Sidebar */}
+            <div className="animate-up">
+              <div className="bg-forest-900 border border-forest-700 p-6 sticky top-28">
+                <div className="border-b border-forest-700 pb-5 mb-5">
+                  <p className="text-gold-400 font-heading text-3xl font-bold">₹3,200</p>
+                  <p className="text-cream-400 text-xs tracking-widest uppercase mt-1">Per Night (incl. breakfast)</p>
+                </div>
+
+                {/* Amenities */}
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  {amenities.map(({ Icon, title }) => (
+                    <div key={title} className="text-center">
+                      <Icon className="text-gold-400 mx-auto mb-1" size={18} />
+                      <p className="text-cream-400 text-[10px]">{title}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-3 mb-6 text-sm">
+                  <div className="flex justify-between text-cream-300">
+                    <span>Room Type</span>
+                    <span className="text-cream-100">Garden View</span>
+                  </div>
+                  <div className="flex justify-between text-cream-300">
+                    <span>Max Occupancy</span>
+                    <span className="text-cream-100">2 Adults</span>
+                  </div>
+                  <div className="flex justify-between text-cream-300">
+                    <span>Bed Type</span>
+                    <span className="text-cream-100">King Size</span>
+                  </div>
+                  <div className="flex justify-between text-cream-300">
+                    <span>Check-in</span>
+                    <span className="text-cream-100">12:00 PM</span>
+                  </div>
+                  <div className="flex justify-between text-cream-300">
+                    <span>Check-out</span>
+                    <span className="text-cream-100">11:00 AM</span>
+                  </div>
+                </div>
+
+                <Link href="/booking?room=garden-view" className="btn-gold block text-center py-3.5 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.15em] uppercase hover:bg-gold-400 transition-all mb-3">
+                  Book This Room
+                </Link>
+                <Link href="/contact" className="block text-center py-3 border border-forest-600 text-cream-300 text-xs tracking-[0.15em] uppercase hover:border-gold-400 hover:text-gold-400 transition-all">
+                  Enquire Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}
