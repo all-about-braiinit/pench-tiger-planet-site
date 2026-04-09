@@ -121,7 +121,7 @@ export default function Navbar() {
             <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-forest-900 shadow-2xl overflow-y-auto"
               onClick={(e) => e.stopPropagation()}>
-              <div className="p-8">
+              <div className="p-8 pt-20">
                 <div className="mb-10">
                   <p className="font-heading text-2xl font-semibold text-cream-100 mb-1">Menu</p>
                   <p className="text-gold-400 text-xs tracking-widest uppercase">Navigation</p>
