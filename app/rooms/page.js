@@ -86,12 +86,13 @@ export default function RoomsPage() {
         className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden pt-20"
         style={{ backgroundImage: 'url(https://www.penchtigerplanet.com/assets/img/room/1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-forest-950/75" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative z-10 text-center px-4">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Stay with Us</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-heading text-5xl md:text-7xl text-white font-bold">Accommodation</motion.h1>
+            className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold text-shadow-strong">Accommodation</motion.h1>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
@@ -130,7 +131,7 @@ export default function RoomsPage() {
                 <Reveal direction={i % 2 === 0 ? 'right' : 'left'} delay={0.2}>
                   <div>
                     <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">{room.tagline}</span>
-                    <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold mb-4">{room.name}</h2>
+                    <h2 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-4">{room.name}</h2>
                     <div className="w-12 h-0.5 bg-gold-400 mb-6" />
                     <p className="text-cream-300 text-sm leading-relaxed mb-8">{room.desc}</p>
                     <div className="grid grid-cols-2 gap-2 mb-8">
@@ -148,7 +149,7 @@ export default function RoomsPage() {
                         </Link>
                       </motion.div>
                       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                        <Link href="/booking" className="btn-gold px-6 py-2.5 bg-gold-500 text-forest-950 text-xs font-bold tracking-[0.15em] uppercase hover:bg-gold-400 transition-all">
+                        <Link href="/booking" className="btn-gold px-6 py-2.5 rounded-xl shadow-lg bg-gold-500 text-forest-950 text-xs font-bold tracking-[0.15em] uppercase hover:bg-gold-400 transition-all">
                           Book Now
                         </Link>
                       </motion.div>
@@ -166,14 +167,14 @@ export default function RoomsPage() {
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-14">
             <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">All Rooms Include</span>
-            <h2 className="font-heading text-3xl md:text-4xl text-cream-100 font-bold">Premium Amenities</h2>
+            <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold">Premium Amenities</h2>
             <div className="w-12 h-0.5 bg-gold-400 mx-auto mt-5" />
           </Reveal>
           <StaggerParent className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 max-w-3xl mx-auto">
             {amenities.map(({ Icon, title }) => (
               <motion.div key={title} variants={staggerItem} whileHover={{ y: -8, scale: 1.05 }} className="text-center group">
                 <motion.div whileHover={{ rotate: 10 }} transition={{ duration: 0.3 }}
-                  className="w-14 h-14 mx-auto bg-forest-800 border border-forest-700 flex items-center justify-center mb-3 group-hover:border-gold-500 transition-colors">
+                  className="w-14 h-14 mx-auto bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center mb-3 group-hover:border-gold-500 transition-colors">
                   <Icon className="text-gold-400" size={22} />
                 </motion.div>
                 <p className="text-cream-300 text-xs">{title}</p>

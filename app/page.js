@@ -122,8 +122,9 @@ export default function App() {
           ))}
         </motion.div>
 
-        {/* Overlays */}
-        <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(10,26,17,0.52) 0%, rgba(10,26,17,0.08) 45%, rgba(10,26,17,0.92) 100%)' }} />
+        {/* Overlays - Enhanced for better text visibility */}
+        <div className="absolute inset-0 z-10 gradient-overlay" />
+        <div className="absolute inset-0 z-10 bg-black/20" />
 
         {/* Parallax content */}
         <motion.div style={{ y: contentY, opacity: contentOpacity }}
@@ -146,29 +147,29 @@ export default function App() {
           <div className="overflow-hidden mb-6">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: '0%' }}
               transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-[clamp(52px,9vw,110px)] text-white font-light leading-[0.9]">
+              className="font-heading text-[clamp(60px,10vw,130px)] text-white font-bold leading-[0.9] text-shadow-strong">
               Pench Tiger<br />
-              <span className="text-gold-400 italic">Planet</span>
+              <span className="text-gold-400 italic text-shadow-gold">Planet</span>
             </motion.h1>
           </div>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="text-cream-200/85 text-base md:text-lg max-w-lg mb-10 leading-relaxed font-light">
+            className="text-cream-100 text-base md:text-xl max-w-2xl mb-10 leading-relaxed font-medium text-shadow">
             Experience the raw beauty of India&apos;s finest tiger reserve from our luxury eco-homestay
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.75 }} className="flex flex-col sm:flex-row gap-4">
-            <motion.a href="/booking" whileHover={{ y: -3, boxShadow: '0 12px 40px rgba(201,162,19,0.35)' }} whileTap={{ scale: 0.97 }}
+            <motion.a href="/booking" whileHover={{ y: -3, scale: 1.02, boxShadow: '0 12px 40px rgba(201,162,19,0.4)' }} whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="group inline-flex items-center gap-2.5 px-9 py-4 bg-gold-500 text-forest-950 font-semibold text-xs tracking-[0.18em] uppercase rounded-sm">
+              className="group inline-flex items-center gap-2.5 px-10 py-5 bg-gold-500 text-forest-950 font-bold text-sm tracking-[0.15em] uppercase rounded-xl shadow-xl">
               Book Your Stay
-              <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+              <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1.5" />
             </motion.a>
-            <motion.a href="/rooms" whileHover={{ y: -3, borderColor: 'rgba(232,197,30,0.7)', color: '#e8c51e' }} whileTap={{ scale: 0.97 }}
+            <motion.a href="/rooms" whileHover={{ y: -3, scale: 1.02, borderColor: 'rgba(232,197,30,1)', backgroundColor: 'rgba(232,197,30,0.1)' }} whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="inline-flex items-center gap-2.5 px-9 py-4 border border-cream-200/40 text-cream-100 text-xs tracking-[0.18em] uppercase rounded-sm transition-colors duration-300">
+              className="inline-flex items-center gap-2.5 px-10 py-5 border-2 border-cream-100/50 text-cream-100 text-sm font-semibold tracking-[0.15em] uppercase rounded-xl backdrop-blur-sm transition-colors duration-300">
               Explore Rooms
             </motion.a>
           </motion.div>
@@ -200,18 +201,18 @@ export default function App() {
                 {[['Check In', 'date'], ['Check Out', 'date']].map(([label, type]) => (
                   <div key={label} className="flex flex-col gap-1.5">
                     <label className="text-gold-400 text-[9px] tracking-[0.25em] uppercase font-medium">{label}</label>
-                    <input type={type} className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 min-w-[160px] transition-colors" />
+                    <input type={type} className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 min-w-[160px] transition-colors rounded-lg" />
                   </div>
                 ))}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-gold-400 text-[9px] tracking-[0.25em] uppercase font-medium">Guests</label>
-                  <select className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 transition-colors">
+                  <select className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 transition-colors rounded-lg">
                     {['1 Adult', '2 Adults', '3 Adults', '4+ Adults'].map((o) => <option key={o}>{o}</option>)}
                   </select>
                 </div>
               </div>
-              <motion.a href="/booking" whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(201,162,19,0.3)' }} whileTap={{ scale: 0.97 }}
-                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold-500 text-forest-950 font-semibold text-xs tracking-[0.18em] uppercase rounded-sm text-center hover:bg-gold-400 transition-colors">
+              <motion.a href="/booking" whileHover={{ y: -2, scale: 1.02, boxShadow: '0 8px 24px rgba(201,162,19,0.4)' }} whileTap={{ scale: 0.98 }}
+                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.18em] uppercase rounded-xl text-center hover:bg-gold-400 transition-colors shadow-lg">
                 Check Availability
               </motion.a>
             </div>
@@ -280,7 +281,7 @@ export default function App() {
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Amenities</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-4xl md:text-5xl text-cream-100 font-light">During Your Stay</motion.h2></div>
+              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">During Your Stay</motion.h2></div>
             <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
           </Reveal>
           <StaggerParent className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
@@ -324,7 +325,7 @@ export default function App() {
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Accommodation</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-4xl md:text-5xl text-cream-100 font-light">Our Rooms</motion.h2></div>
+              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">Our Rooms</motion.h2></div>
             <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
           </Reveal>
           <StaggerParent className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -362,7 +363,7 @@ export default function App() {
             <Reveal>
               <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-2">Gallery</p>
               <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-                className="font-heading text-4xl md:text-5xl text-cream-100 font-light">Our Gallery</motion.h2></div>
+                className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">Our Gallery</motion.h2></div>
               <div className="w-10 h-px bg-gold-400 mt-4" />
             </Reveal>
             <Reveal delay={0.15}>
@@ -398,7 +399,7 @@ export default function App() {
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Testimonials</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-              className="font-heading text-4xl md:text-5xl text-cream-100 font-light">What Our Guests Say</motion.h2></div>
+              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">What Our Guests Say</motion.h2></div>
             <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
           </Reveal>
           <Reveal className="max-w-2xl mx-auto text-center">

@@ -77,12 +77,13 @@ export default function GalleryPage() {
         className="relative h-[55vh] min-h-[350px] flex items-center justify-center overflow-hidden pt-20"
         style={{ backgroundImage: 'url(https://www.penchtigerplanet.com/assets/img/gallery/5.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-forest-950/75" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative z-10 text-center px-4">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Visual Journey</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-heading text-5xl md:text-7xl text-white font-bold">Our Gallery</motion.h1>
+            className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold text-shadow-strong">Our Gallery</motion.h1>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>

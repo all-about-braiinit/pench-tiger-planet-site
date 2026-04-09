@@ -72,12 +72,13 @@ export default function AboutPage() {
         className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden pt-20"
         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1502252430442-aac78f397426?w=1920&q=80&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-forest-950/75" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative z-10 text-center px-4">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Our Story</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-heading text-5xl md:text-7xl text-white font-bold">About Us</motion.h1>
+            className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold text-shadow-strong">About Us</motion.h1>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
@@ -89,7 +90,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal direction="left">
               <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-4 block">Who We Are</span>
-              <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold mb-6 leading-tight">
+              <h2 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-6 leading-tight">
                 Born from a Love<br />
                 <span className="text-gold-400">for Wildlife & People</span>
               </h2>
@@ -110,7 +111,7 @@ export default function AboutPage() {
                 pickups to serving home-cooked meals with local flavours — we are here for you.
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <Link href="/booking" className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.2em] uppercase hover:bg-gold-400 transition-all group">
+                <Link href="/booking" className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 rounded-xl shadow-lg bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.2em] uppercase hover:bg-gold-400 transition-all group">
                   Book Your Stay <motion.span className="group-hover:translate-x-1 transition-transform"><ArrowRight size={14} /></motion.span>
                 </Link>
               </motion.div>
@@ -132,13 +133,13 @@ export default function AboutPage() {
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-16">
             <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">Why Us</span>
-            <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold">Why Choose Pench Tiger Planet</h2>
+            <h2 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold">Why Choose Pench Tiger Planet</h2>
             <div className="w-16 h-0.5 bg-gold-400 mx-auto mt-6" />
           </Reveal>
           <StaggerParent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map(({ Icon, title, desc }) => (
               <motion.div key={title} variants={staggerItem} whileHover={{ y: -8, borderColor: 'rgba(212, 175, 55, 0.4)' }}
-                className="p-6 border border-forest-700 transition-all duration-300 bg-forest-800/50 group">
+                className="p-6 border border-forest-700 rounded-2xl transition-all duration-300 bg-forest-800/50 group">
                 <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}
                   className="w-12 h-12 bg-forest-700 border border-forest-600 flex items-center justify-center mb-4 group-hover:border-gold-500 transition-colors">
                   <Icon className="text-gold-400" size={22} />

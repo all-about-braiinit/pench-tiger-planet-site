@@ -5,28 +5,38 @@ import { motion, AnimatePresence } from 'framer-motion'
 const TITLE_CHARS = 'PENCH TIGER PLANET'.split('')
 
 export default function LoadingScreen() {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (!sessionStorage.getItem('ptp_session_v2')) {
+    
+    // Check if this is the first load
+    const hasLoaded = sessionStorage.getItem('ptp_session_v2')
+    
+    if (!hasLoaded) {
       setShow(true)
+      setIsFirstLoad(true)
       const t = setTimeout(() => {
         setShow(false)
         sessionStorage.setItem('ptp_session_v2', '1')
-      }, 3000)
+      }, 3200)
       return () => clearTimeout(t)
+    } else {
+      setShow(false)
+      setIsFirstLoad(false)
     }
   }, [])
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {show && (
         <motion.div
           key="loading"
-          initial={{ y: 0 }}
-          exit={{ y: '-100%', transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] } }}
-          className="fixed inset-0 z-[9999] bg-forest-950 flex flex-col items-center justify-center overflow-hidden"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0, y: '-100%', transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
+          className="fixed inset-0 z-[99999] bg-forest-950 flex flex-col items-center justify-center overflow-hidden"
+          style={{ pointerEvents: 'all' }}
         >
           {/* Decorative lines */}
           <motion.div
@@ -95,7 +105,7 @@ export default function LoadingScreen() {
               className="absolute inset-y-0 left-0 bg-gold-400"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
-              transition={{ duration: 2.2, delay: 0.6, ease: 'easeInOut' }}
+              transition={{ duration: 2.4, delay: 0.6, ease: 'easeInOut' }}
             />
           </div>
 

@@ -1,103 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --forest-950: 10 26 17;
+    --forest-900: 15 35 23;
+    --forest-800: 20 44 29;
+    --forest-700: 28 56 38;
+    --forest-600: 36 68 47;
+    --gold-400: 212 175 55;
+    --gold-500: 196 160 45;
+    --cream-100: 250 248 242;
+    --cream-200: 242 237 227;
+    --cream-300: 227 219 203;
+    --cream-400: 205 195 175;
+    --cream-500: 180 168 148;
+    --cream-600: 145 133 113;
   }
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
-}
-
-@layer base {
+  
   * {
     @apply border-border;
   }
-  html {
-    scroll-behavior: auto;
-  }
+  
   body {
     @apply bg-forest-950 text-cream-100 antialiased;
-    font-family: var(--font-body, system-ui, sans-serif);
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-feature-settings: 'liga', 'kern';
+  }
+
+  /* Hide body until loading screen is ready */
+  body.loading {
+    overflow: hidden;
   }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0a1a11; }
-::-webkit-scrollbar-thumb { background: #c9a213; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #e8c51e; }
+@layer components {
+  .btn-gold {
+    @apply relative overflow-hidden;
+  }
+  .btn-gold::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-gold-400/0 via-white/20 to-gold-400/0;
+    @apply translate-x-[-200%] transition-transform duration-700;
+  }
+  .btn-gold:hover::before {
+    @apply translate-x-[200%];
+  }
 
-/* Selection */
-::selection { background: rgba(201,162,19,0.3); color: #f8f2e8; }
+  /* Modern card styles */
+  .modern-card {
+    @apply rounded-2xl shadow-lg shadow-black/20 backdrop-blur-sm;
+    @apply transition-all duration-300;
+  }
+  
+  .modern-card:hover {
+    @apply shadow-xl shadow-black/30 -translate-y-1;
+  }
 
-/* Gold shimmer button */
-.btn-gold { position: relative; overflow: hidden; }
-.btn-gold::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.5s;
+  /* Glass effect */
+  .glass-effect {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
 }
-.btn-gold:hover::after { left: 100%; }
 
-/* Date input dark styling */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.5;
-  cursor: pointer;
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-shadow-strong {
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 4px 12px rgba(0, 0, 0, 0.6),
+      0 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .text-shadow-gold {
+    text-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  .gradient-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 26, 17, 0.3) 0%,
+      rgba(10, 26, 17, 0.5) 50%,
+      rgba(10, 26, 17, 0.85) 100%
+    );
+  }
 }

@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="bg-forest-950 text-cream-100 font-sans antialiased">
+      <body className="bg-forest-950 text-cream-100 antialiased">
         <LoadingScreen />
         <SmoothScroll>
           <Navbar />

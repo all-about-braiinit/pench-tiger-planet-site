@@ -92,7 +92,7 @@ export default function BookingPage() {
     }
   }
 
-  const inputCls = 'w-full bg-forest-800 text-cream-100 border border-forest-700 px-4 py-3 text-sm placeholder-cream-600 focus:outline-none focus:border-gold-400 transition-colors'
+  const inputCls = 'w-full bg-forest-800 text-cream-100 border border-forest-700 px-4 py-3 text-sm placeholder-cream-600 focus:outline-none focus:border-gold-400 transition-colors rounded-lg'
   const selectCls = `${inputCls} cursor-pointer`
 
   return (
@@ -102,12 +102,13 @@ export default function BookingPage() {
         className="relative h-[55vh] min-h-[350px] flex items-center justify-center overflow-hidden pt-20"
         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1649689727213-9842bb6fe095?w=1920&q=80&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-forest-950/80" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative z-10 text-center px-4">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Reserve Your Stay</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-heading text-5xl md:text-7xl text-white font-bold">Book Now</motion.h1>
+            className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold text-shadow-strong">Book Now</motion.h1>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
@@ -124,7 +125,7 @@ export default function BookingPage() {
             ].map(({ Icon, title, sub }, i) => (
               <motion.div key={title} variants={staggerItem} whileHover={{ y: -5 }} className="text-center">
                 <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}
-                  className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center mx-auto mb-2">
+                  className="w-10 h-10 bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <Icon className="text-gold-400" size={18} />
                 </motion.div>
                 <p className="text-cream-100 text-xs font-medium">{title}</p>
@@ -174,7 +175,7 @@ export default function BookingPage() {
               {/* Form */}
               <Reveal direction="left" className="lg:col-span-2">
                 <div>
-                  <h2 className="font-heading text-3xl text-cream-100 font-semibold mb-8">Booking Inquiry</h2>
+                  <h2 className="font-heading text-4xl md:text-5xl text-cream-100 font-bold mb-8">Booking Inquiry</h2>
                   <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Personal Info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -255,7 +256,7 @@ export default function BookingPage() {
               <Reveal direction="right" delay={0.2}>
                 <div>
                   <motion.div whileHover={{ borderColor: 'rgba(212, 175, 55, 0.3)' }}
-                    className="bg-forest-900 border border-forest-700 p-6 mb-6 transition-all">
+                    className="bg-forest-900 border border-forest-700 rounded-2xl p-6 mb-6 transition-all">
                     <h3 className="font-heading text-xl text-cream-100 font-semibold mb-4">Booking Info</h3>
                     <div className="space-y-4 text-sm">
                       {[

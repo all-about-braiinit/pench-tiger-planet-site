@@ -61,7 +61,7 @@ export default function ContactPage() {
     }
   }
 
-  const inputCls = 'w-full bg-forest-800 text-cream-100 border border-forest-700 px-4 py-3 text-sm placeholder-cream-600 focus:outline-none focus:border-gold-400 transition-colors'
+  const inputCls = 'w-full bg-forest-800 text-cream-100 border border-forest-700 px-4 py-3 text-sm placeholder-cream-600 focus:outline-none focus:border-gold-400 transition-colors rounded-lg'
 
   return (
     <main>
@@ -70,12 +70,13 @@ export default function ContactPage() {
         className="relative h-[55vh] min-h-[350px] flex items-center justify-center overflow-hidden pt-20"
         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1487621167305-5d248087c724?w=1920&q=80&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-forest-950/78" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative z-10 text-center px-4">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-gold-400 text-xs tracking-[0.4em] uppercase mb-4">Let&apos;s Talk</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-heading text-5xl md:text-7xl text-white font-bold">Get In Touch</motion.h1>
+            className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold text-shadow-strong">Get In Touch</motion.h1>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="w-12 h-0.5 bg-gold-400 mx-auto mt-6" />
         </div>
@@ -90,7 +91,7 @@ export default function ContactPage() {
             <Reveal direction="left" className="lg:col-span-2">
               <div>
                 <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-4 block">Contact Information</span>
-                <h2 className="font-heading text-3xl md:text-4xl text-cream-100 font-bold mb-6 leading-tight">
+                <h2 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-6 leading-tight">
                   We&apos;re Here<br />
                   <span className="text-gold-400">to Help</span>
                 </h2>
@@ -103,7 +104,7 @@ export default function ContactPage() {
                 <div className="space-y-6">
                   <motion.div whileHover={{ x: 5 }} className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}
-                      className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center shrink-0">
+                      className="w-10 h-10 bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center shrink-0">
                       <MapPin className="text-gold-400" size={18} />
                     </motion.div>
                     <div>
@@ -113,7 +114,7 @@ export default function ContactPage() {
                   </motion.div>
                   <motion.div whileHover={{ x: 5 }} className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}
-                      className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center shrink-0">
+                      className="w-10 h-10 bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center shrink-0">
                       <Phone className="text-gold-400" size={18} />
                     </motion.div>
                     <div>
@@ -123,7 +124,7 @@ export default function ContactPage() {
                   </motion.div>
                   <motion.div whileHover={{ x: 5 }} className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}
-                      className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center shrink-0">
+                      className="w-10 h-10 bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center shrink-0">
                       <Mail className="text-gold-400" size={18} />
                     </motion.div>
                     <div>
@@ -133,7 +134,7 @@ export default function ContactPage() {
                   </motion.div>
                   <motion.div whileHover={{ x: 5 }} className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}
-                      className="w-10 h-10 bg-forest-800 border border-forest-700 flex items-center justify-center shrink-0">
+                      className="w-10 h-10 bg-forest-800 border border-forest-700 rounded-xl flex items-center justify-center shrink-0">
                       <Clock className="text-gold-400" size={18} />
                     </motion.div>
                     <div>
@@ -164,7 +165,7 @@ export default function ContactPage() {
                     </motion.button>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="bg-forest-900 border border-forest-700 p-8">
+                  <form onSubmit={handleSubmit} className="bg-forest-900 border border-forest-700 rounded-2xl p-8">
                     <h3 className="font-heading text-2xl text-cream-100 font-semibold mb-6">Send a Message</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
