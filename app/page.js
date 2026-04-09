@@ -12,10 +12,54 @@ const heroSlides = [
 ]
 
 const services = [
-  { Icon: Wifi, title: 'Free Wi-Fi' }, { Icon: Tv, title: 'Television' },
-  { Icon: BedDouble, title: 'King Size Bed' }, { Icon: Stethoscope, title: 'Doctor on Call' },
-  { Icon: Shirt, title: 'Laundry Facility' }, { Icon: UtensilsCrossed, title: 'Room Service' },
-  { Icon: ChefHat, title: 'Restaurant' }, { Icon: ParkingCircle, title: 'Parking' },
+  { 
+    Icon: Wifi, 
+    title: 'Free Wi-Fi', 
+    desc: 'Stay connected with high-speed wireless internet throughout the property',
+    img: 'https://images.unsplash.com/photo-1544894079-e81a9eb1da8b?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: Tv, 
+    title: 'Television', 
+    desc: 'Smart TVs in every room with premium entertainment channels',
+    img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: BedDouble, 
+    title: 'King Size Beds', 
+    desc: 'Luxurious king-size beds with premium linens for ultimate comfort',
+    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: Stethoscope, 
+    title: 'Doctor on Call', 
+    desc: '24/7 medical assistance available for your peace of mind',
+    img: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: Shirt, 
+    title: 'Laundry Facility', 
+    desc: 'Professional laundry and dry-cleaning services at your convenience',
+    img: 'https://images.unsplash.com/photo-1545968736-e11a26aeff5c?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: UtensilsCrossed, 
+    title: 'Room Service', 
+    desc: 'In-room dining with delicious meals served to your comfort',
+    img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: ChefHat, 
+    title: 'Restaurant', 
+    desc: 'Multi-cuisine restaurant serving authentic local and international dishes',
+    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&auto=format&fit=crop'
+  },
+  { 
+    Icon: ParkingCircle, 
+    title: 'Free Parking', 
+    desc: 'Secure parking space available for all our guests',
+    img: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=800&q=80&auto=format&fit=crop'
+  },
 ]
 
 const stats = [
@@ -88,6 +132,7 @@ function Counter({ end, suffix, isFloat }) {
 /* ─── main component ────────────────────────────────────── */
 export default function App() {
   const [activeSlide, setActiveSlide] = useState(0)
+  const [activeAmenity, setActiveAmenity] = useState(0)
   const [activeTesti, setActiveTesti] = useState(0)
 
   // Parallax
@@ -103,6 +148,12 @@ export default function App() {
   }, [])
   useEffect(() => {
     const t = setInterval(() => setActiveTesti((p) => (p + 1) % testimonials.length), 5000)
+    return () => clearInterval(t)
+  }, [])
+  
+  // Auto-rotate amenities slider
+  useEffect(() => {
+    const t = setInterval(() => setActiveAmenity((prev) => (prev + 1) % services.length), 4000)
     return () => clearInterval(t)
   }, [])
 
@@ -275,29 +326,81 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── SERVICES ──────────────────────────────────────────── */}
-      <section className="py-24 lg:py-32 bg-forest-900">
+      {/* ── SERVICES/AMENITIES SLIDER ──────────────────────────────────────────── */}
+      <section className="py-24 lg:py-32 bg-forest-900 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-16">
-            <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Amenities</p>
+            <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Amenities</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">During Your Stay</motion.h2></div>
-            <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
+              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">During Your Stay</motion.h2></div>
+            <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
-          <StaggerParent className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
-            {services.map(({ Icon, title }, idx) => (
-              <motion.div key={idx} variants={staggerItem}
-                whileHover={{ y: -6, borderColor: 'rgba(201,162,19,0.6)' }}
-                transition={{ type: 'spring', stiffness: 250, damping: 20 }}
-                className="text-center group cursor-default border border-transparent p-4 rounded-sm">
-                <motion.div whileHover={{ rotate: [0, -8, 8, 0] }} transition={{ duration: 0.4 }}
-                  className="w-16 h-16 mx-auto bg-forest-800 border border-forest-700 flex items-center justify-center mb-4 group-hover:border-gold-500 group-hover:bg-forest-700 transition-colors duration-300">
-                  <Icon className="text-gold-400" size={26} />
+          
+          {/* Amenities Slider */}
+          <div className="relative max-w-5xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeAmenity}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
+              >
+                {/* Image */}
+                <motion.div 
+                  className="relative overflow-hidden rounded-3xl h-[400px] lg:h-[500px] group"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <img 
+                    src={services[activeAmenity].img} 
+                    alt={services[activeAmenity].title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent" />
+                  <motion.div 
+                    className="absolute top-6 left-6 w-20 h-20 bg-forest-900/80 backdrop-blur-sm border-2 border-gold-400 rounded-2xl flex items-center justify-center"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    {(() => {
+                      const IconComponent = services[activeAmenity].Icon
+                      return <IconComponent className="text-gold-400" size={36} />
+                    })()}
+                  </motion.div>
                 </motion.div>
-                <p className="text-cream-200 text-sm font-medium">{title}</p>
+                
+                {/* Content */}
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-gold-400 text-xs tracking-[0.3em] uppercase mb-3">Feature {activeAmenity + 1} of {services.length}</p>
+                    <h3 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-4">
+                      {services[activeAmenity].title}
+                    </h3>
+                    <div className="w-12 h-1 bg-gold-400 rounded-full mb-6" />
+                    <p className="text-cream-300 text-lg leading-relaxed">
+                      {services[activeAmenity].desc}
+                    </p>
+                  </div>
+                  
+                  {/* Dots Indicator */}
+                  <div className="flex gap-2 pt-4">
+                    {services.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveAmenity(idx)}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          idx === activeAmenity 
+                            ? 'w-12 bg-gold-400' 
+                            : 'w-6 bg-forest-700 hover:bg-gold-400/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </motion.div>
-            ))}
-          </StaggerParent>
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
@@ -323,31 +426,34 @@ export default function App() {
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-16">
-            <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Accommodation</p>
+            <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Accommodation</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">Our Rooms</motion.h2></div>
-            <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
+              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">Our Rooms</motion.h2></div>
+            <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
-          <StaggerParent className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <StaggerParent className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
             {rooms.map((room) => (
               <motion.div key={room.slug} variants={staggerItem}
-                className="group border border-forest-700 hover:border-gold-500/40 transition-all duration-500 overflow-hidden bg-forest-900">
-                <div className="relative overflow-hidden h-64">
+                className="group border-2 border-forest-700 hover:border-gold-500/50 transition-all duration-500 overflow-hidden bg-forest-900 rounded-3xl shadow-2xl hover:shadow-gold-500/10"
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20 }}>
+                <div className="relative overflow-hidden h-80">
                   <motion.img src={room.img} alt={room.name} className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.06 }} transition={{ duration: 0.7, ease: 'easeOut' }} />
-                  <div className="absolute top-0 right-0 bg-gold-500 text-forest-950 px-4 py-2">
-                    <p className="font-heading text-lg font-bold leading-none">{room.price}</p>
-                    <p className="text-[9px] tracking-widest uppercase">Per Night</p>
+                    whileHover={{ scale: 1.08 }} transition={{ duration: 0.7, ease: 'easeOut' }} />
+                  <div className="absolute top-6 right-6 bg-gold-500 text-forest-950 px-6 py-3 rounded-2xl shadow-lg">
+                    <p className="font-heading text-2xl font-bold leading-none">{room.price}</p>
+                    <p className="text-[10px] tracking-widest uppercase">Per Night</p>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest-950/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/50 to-transparent" />
                 </div>
-                <div className="p-6">
-                  <h3 className="font-heading text-2xl text-cream-100 font-light mb-2">{room.name}</h3>
-                  <p className="text-cream-400 text-sm leading-relaxed mb-5">{room.desc}</p>
-                  <motion.a href={`/rooms/${room.slug}`} className="inline-flex items-center gap-2.5 text-gold-400 text-xs tracking-[0.2em] uppercase font-medium group/link"
-                    whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 300 }}>
+                <div className="p-8">
+                  <h3 className="font-heading text-4xl text-cream-100 font-bold mb-4">{room.name}</h3>
+                  <p className="text-cream-300 text-base leading-relaxed mb-6">{room.desc}</p>
+                  <motion.a href={`/rooms/${room.slug}`} 
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-gold-500/10 border-2 border-gold-500 text-gold-400 text-sm tracking-[0.15em] uppercase font-bold rounded-xl group/link hover:bg-gold-500 hover:text-forest-950 transition-all"
+                    whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 300 }}>
                     View Details
-                    <span className="w-5 h-px bg-gold-400 group-hover/link:w-8 transition-all duration-300" />
+                    <ArrowRight size={18} className="group-hover/link:translate-x-1 transition-transform" />
                   </motion.a>
                 </div>
               </motion.div>
@@ -361,10 +467,10 @@ export default function App() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-14">
             <Reveal>
-              <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-2">Gallery</p>
+              <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-3">Gallery</p>
               <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-                className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">Our Gallery</motion.h2></div>
-              <div className="w-10 h-px bg-gold-400 mt-4" />
+                className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">Our Gallery</motion.h2></div>
+              <div className="w-12 h-px bg-gold-400 mt-5" />
             </Reveal>
             <Reveal delay={0.15}>
               <motion.a href="/gallery" className="mt-6 sm:mt-0 inline-flex items-center gap-2.5 text-gold-400 text-xs tracking-[0.2em] uppercase font-medium group"
@@ -373,18 +479,35 @@ export default function App() {
               </motion.a>
             </Reveal>
           </div>
-          <StaggerParent className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+          <StaggerParent className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {galleryImages.map((img, idx) => (
               <motion.a key={idx} href="/gallery" variants={staggerItem}
-                className="relative overflow-hidden group aspect-square block"
-                whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}>
+                className="relative overflow-hidden group aspect-square block rounded-2xl shadow-lg"
+                whileHover={{ y: -8, scale: 1.03, rotateY: 2, rotateX: 2 }} 
+                transition={{ type: 'spring', stiffness: 250, damping: 20 }}>
                 <motion.img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }} transition={{ duration: 0.6, ease: 'easeOut' }} />
-                <motion.div className="absolute inset-0 bg-forest-950/0 group-hover:bg-forest-950/45 transition-all duration-400 flex items-center justify-center">
-                  <motion.span initial={{ opacity: 0, scale: 0.8 }} whileHover={{ opacity: 1, scale: 1 }}
-                    className="text-white text-[10px] tracking-[0.3em] uppercase border border-white/50 px-3 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    View
+                  whileHover={{ scale: 1.15 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileHover={{ opacity: 1, y: 0 }}
+                  className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <motion.span 
+                    className="text-white font-heading text-xl tracking-wider">
+                    Gallery
                   </motion.span>
+                  <motion.div 
+                    whileHover={{ scale: 1.2, rotate: 45 }}
+                    className="w-8 h-8 rounded-full bg-gold-500/90 flex items-center justify-center">
+                    <ArrowRight size={16} className="text-forest-950" />
+                  </motion.div>
+                </motion.div>
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: 0.3, ease: 'backOut' }}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gold-500/20 backdrop-blur-sm border border-gold-400/50 flex items-center justify-center">
+                  <span className="text-gold-400 text-xs font-bold">{idx + 1}</span>
                 </motion.div>
               </motion.a>
             ))}
@@ -397,10 +520,10 @@ export default function App() {
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'url(https://www.penchtigerplanet.com/assets/img/testi.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="relative container mx-auto px-6">
           <Reveal className="text-center mb-16">
-            <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">Testimonials</p>
+            <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Testimonials</p>
             <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-              className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold">What Our Guests Say</motion.h2></div>
-            <div className="w-14 h-px bg-gold-400 mx-auto mt-5" />
+              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">What Our Guests Say</motion.h2></div>
+            <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
           <Reveal className="max-w-2xl mx-auto text-center">
             <AnimatePresence mode="wait">
@@ -426,29 +549,30 @@ export default function App() {
       {/* ── CTA BANNER ────────────────────────────────────────── */}
       <section className="py-32 relative overflow-hidden"
         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1649689727213-9842bb6fe095?w=1920&q=80&auto=format&fit=crop)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="absolute inset-0 bg-forest-950/78" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 gradient-overlay" />
         <div className="relative container mx-auto px-6 text-center">
           <Reveal>
-            <p className="text-gold-400 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">Ready for an Adventure?</p>
-            <div className="overflow-hidden mb-4">
+            <p className="text-gold-400 text-xs tracking-[0.5em] uppercase font-medium mb-5">Ready for an Adventure?</p>
+            <div className="overflow-hidden mb-6">
               <motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-heading text-5xl md:text-6xl lg:text-7xl text-white font-light leading-tight">
+                className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold leading-tight text-shadow-strong">
                 Book Your Stay at<br />
-                <em className="text-gold-400 not-italic">Pench Tiger Planet</em>
+                <em className="text-gold-400 not-italic text-shadow-gold">Pench Tiger Planet</em>
               </motion.h2>
             </div>
-            <p className="text-cream-200/80 text-base max-w-lg mx-auto mb-10 font-light">
+            <p className="text-cream-100 text-lg max-w-2xl mx-auto mb-12 text-shadow">
               Experience the magic of the jungle, the warmth of our hospitality, and memories that last a lifetime.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.a href="/booking" whileHover={{ y: -3, boxShadow: '0 12px 40px rgba(201,162,19,0.35)' }} whileTap={{ scale: 0.97 }}
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              <motion.a href="/booking" whileHover={{ y: -4, scale: 1.05, boxShadow: '0 16px 48px rgba(201,162,19,0.5)' }} whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="group inline-flex items-center justify-center gap-2.5 px-10 py-4 bg-gold-500 text-forest-950 font-semibold tracking-[0.15em] uppercase text-xs rounded-sm hover:bg-gold-400 transition-colors">
-                Book Now <ArrowRight size={13} className="transition-transform group-hover:translate-x-1.5" />
+                className="group inline-flex items-center justify-center gap-3 px-12 py-5 bg-gold-500 text-forest-950 font-bold tracking-[0.15em] uppercase text-sm rounded-xl shadow-xl hover:bg-gold-400 transition-colors">
+                Book Now <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
               </motion.a>
-              <motion.a href="/contact" whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+              <motion.a href="/contact" whileHover={{ y: -4, scale: 1.05, borderColor: 'rgba(232,197,30,1)', backgroundColor: 'rgba(232,197,30,0.15)' }} whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="inline-flex items-center justify-center gap-2 px-10 py-4 border border-cream-200/35 text-cream-100 tracking-[0.15em] uppercase text-xs rounded-sm hover:border-gold-400 hover:text-gold-400 transition-colors">
+                className="inline-flex items-center justify-center gap-2 px-12 py-5 border-2 border-cream-100/50 text-cream-100 tracking-[0.15em] uppercase text-sm rounded-xl backdrop-blur-sm transition-all">
                 Contact Us
               </motion.a>
             </div>
