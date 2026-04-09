@@ -49,8 +49,8 @@ export default function Navbar() {
         <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <img src="https://www.penchtigerplanet.com/assets/img/logo.png" alt="Pench Tiger Planet" className="h-10 w-auto" onError={(e) => { e.target.style.display = 'none' }} />
-            <div>
+            <img src="https://www.penchtigerplanet.com/assets/img/logo.png" alt="Pench Tiger Planet" className="h-10 lg:h-10 w-auto" onError={(e) => { e.target.style.display = 'none' }} />
+            <div className="hidden sm:block">
               <p className="font-heading text-lg font-semibold text-cream-100 leading-tight">Pench Tiger Planet</p>
               <p className="text-gold-400 text-[9px] tracking-[0.25em] uppercase">Luxury Eco-Homestay</p>
             </div>
@@ -122,14 +122,9 @@ export default function Navbar() {
               className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-forest-900 shadow-2xl overflow-y-auto"
               onClick={(e) => e.stopPropagation()}>
               <div className="p-8">
-                <div className="flex items-center justify-between mb-10">
-                  <div>
-                    <p className="font-heading text-xl font-semibold text-cream-100">Menu</p>
-                    <p className="text-gold-400 text-xs tracking-widest uppercase mt-1">Navigation</p>
-                  </div>
-                  <button onClick={() => setMenuOpen(false)} className="p-2 hover:text-gold-400 transition-colors">
-                    <X size={24} />
-                  </button>
+                <div className="mb-10">
+                  <p className="font-heading text-2xl font-semibold text-cream-100 mb-1">Menu</p>
+                  <p className="text-gold-400 text-xs tracking-widest uppercase">Navigation</p>
                 </div>
                 <nav className="space-y-2">
                   {navLinks.map((link) => (

@@ -243,34 +243,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── QUICK BOOKING BAR ─────────────────────────────────── */}
-      <Reveal>
-        <section className="bg-forest-900 border-b border-forest-700 py-6">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row items-end gap-4 justify-between">
-              <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                {[['Check In', 'date'], ['Check Out', 'date']].map(([label, type]) => (
-                  <div key={label} className="flex flex-col gap-1.5">
-                    <label className="text-gold-400 text-[9px] tracking-[0.25em] uppercase font-medium">{label}</label>
-                    <input type={type} className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 min-w-[160px] transition-colors rounded-lg" />
-                  </div>
-                ))}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-gold-400 text-[9px] tracking-[0.25em] uppercase font-medium">Guests</label>
-                  <select className="bg-forest-800 text-cream-100 border border-forest-700 px-4 py-2.5 text-sm focus:outline-none focus:border-gold-400 transition-colors rounded-lg">
-                    {['1 Adult', '2 Adults', '3 Adults', '4+ Adults'].map((o) => <option key={o}>{o}</option>)}
-                  </select>
-                </div>
-              </div>
-              <motion.a href="/booking" whileHover={{ y: -2, scale: 1.02, boxShadow: '0 8px 24px rgba(201,162,19,0.4)' }} whileTap={{ scale: 0.98 }}
-                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-gold-500 text-forest-950 font-bold text-xs tracking-[0.18em] uppercase rounded-xl text-center hover:bg-gold-400 transition-colors shadow-lg">
-                Check Availability
-              </motion.a>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
       {/* ── ABOUT ─────────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
