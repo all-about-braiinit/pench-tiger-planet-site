@@ -28,7 +28,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 border border-forest-700 flex items-center justify-center text-cream-400 hover:border-gold-400 hover:text-gold-400 transition-all">
+                <a key={i} href="https://www.instagram.com/penchtigerplanet/" className="w-9 h-9 border border-forest-700 flex items-center justify-center text-cream-400 hover:border-gold-400 hover:text-gold-400 transition-all">
                   <Icon size={15} />
                 </a>
               ))}

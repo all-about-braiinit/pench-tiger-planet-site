@@ -12,51 +12,51 @@ const heroSlides = [
 ]
 
 const services = [
-  { 
-    Icon: Wifi, 
-    title: 'Free Wi-Fi', 
+  {
+    Icon: Wifi,
+    title: 'Free Wi-Fi',
     desc: 'Stay connected with high-speed wireless internet throughout the property',
     img: 'https://images.unsplash.com/photo-1544894079-e81a9eb1da8b?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: Tv, 
-    title: 'Television', 
+  {
+    Icon: Tv,
+    title: 'Television',
     desc: 'Smart TVs in every room with premium entertainment channels',
     img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: BedDouble, 
-    title: 'King Size Beds', 
+  {
+    Icon: BedDouble,
+    title: 'King Size Beds',
     desc: 'Luxurious king-size beds with premium linens for ultimate comfort',
     img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: Stethoscope, 
-    title: 'Doctor on Call', 
+  {
+    Icon: Stethoscope,
+    title: 'Doctor on Call',
     desc: '24/7 medical assistance available for your peace of mind',
     img: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: Shirt, 
-    title: 'Laundry Facility', 
+  {
+    Icon: Shirt,
+    title: 'Laundry Facility',
     desc: 'Professional laundry and dry-cleaning services at your convenience',
     img: 'https://images.unsplash.com/photo-1545968736-e11a26aeff5c?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: UtensilsCrossed, 
-    title: 'Room Service', 
+  {
+    Icon: UtensilsCrossed,
+    title: 'Room Service',
     desc: 'In-room dining with delicious meals served to your comfort',
     img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: ChefHat, 
-    title: 'Restaurant', 
+  {
+    Icon: ChefHat,
+    title: 'Restaurant',
     desc: 'Multi-cuisine restaurant serving authentic local and international dishes',
     img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&auto=format&fit=crop'
   },
-  { 
-    Icon: ParkingCircle, 
-    title: 'Free Parking', 
+  {
+    Icon: ParkingCircle,
+    title: 'Free Parking',
     desc: 'Secure parking space available for all our guests',
     img: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=800&q=80&auto=format&fit=crop'
   },
@@ -150,7 +150,7 @@ export default function App() {
     const t = setInterval(() => setActiveTesti((p) => (p + 1) % testimonials.length), 5000)
     return () => clearInterval(t)
   }, [])
-  
+
   // Auto-rotate amenities slider
   useEffect(() => {
     const t = setInterval(() => setActiveAmenity((prev) => (prev + 1) % services.length), 4000)
@@ -180,7 +180,7 @@ export default function App() {
         {/* Parallax content */}
         <motion.div style={{ y: contentY, opacity: contentOpacity }}
           className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
-          
+
           {/* Slide label */}
           <AnimatePresence mode="wait">
             <motion.p key={activeSlide} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
@@ -247,26 +247,26 @@ export default function App() {
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
+
             {/* Image Side with Animations */}
             <Reveal direction="left" className="relative order-2 lg:order-1">
-              <motion.div 
+              <motion.div
                 className="relative overflow-hidden rounded-3xl group"
                 whileHover={{ scale: 1.02, rotateY: 2 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <motion.img 
-                  src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg" 
-                  alt="About Pench Tiger Planet" 
+                <motion.img
+                  src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg"
+                  alt="About Pench Tiger Planet"
                   className="w-full aspect-[4/3] object-cover"
                   whileHover={{ scale: 1.08 }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950/40 via-transparent to-transparent group-hover:from-forest-950/60 transition-all duration-500" />
               </motion.div>
-              
+
               {/* Animated Rating Badge */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -274,7 +274,7 @@ export default function App() {
                 whileHover={{ scale: 1.08, rotate: 3 }}
                 className="absolute -bottom-6 -right-6 bg-gold-500 text-forest-950 p-6 hidden md:block cursor-default rounded-2xl shadow-2xl"
               >
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -298,16 +298,16 @@ export default function App() {
                 </div>
                 <p className="text-[10px] font-bold tracking-widest uppercase">Guest Rating</p>
               </motion.div>
-              
+
               {/* Decorative Corner Elements - Animated */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-gold-400 rounded-tl-2xl"
               />
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -318,7 +318,7 @@ export default function App() {
 
             {/* Content Side with Animations */}
             <Reveal direction="right" className="order-1 lg:order-2">
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -327,9 +327,9 @@ export default function App() {
               >
                 About Us
               </motion.p>
-              
+
               {/* Large Hero-Style Title */}
-              <div className="overflow-hidden mb-4">
+              {/* <div className="overflow-hidden mb-4">
                 <motion.h2 
                   initial={{ y: '110%' }} 
                   whileInView={{ y: '0%' }} 
@@ -340,18 +340,27 @@ export default function App() {
                   A Sanctuary Where<br />
                   <em className="text-gold-400 not-italic">Wilderness Meets Luxury</em>
                 </motion.h2>
+              </div> */}
+              {/* Large Hero-Style Title */}
+              <div className="overflow-hidden mb-4">
+                <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                  A Sanctuary Where<br />
+                  <em className="text-gold-400 italic text-[clamp(48px,7vw,96px)] block mt-2">
+                    Wilderness Meets Luxury
+                  </em>
+                </h2>
               </div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="w-16 h-1 bg-gold-400 rounded-full mt-5 mb-8"
               />
-              
+
               {/* Animated Paragraphs */}
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -360,8 +369,8 @@ export default function App() {
               >
                 Bestowing excellent hospitality to its every category of guests, Pench Tiger Planet reflects the culture and ethos of its location. With the perfect fusion of contemporary decor in the sumptuous interiors, we have set the bar of services much higher than the expectations of our guests.
               </motion.p>
-              
-              <motion.p 
+
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -370,14 +379,14 @@ export default function App() {
               >
                 The concept of intuitive anticipatory service makes the guest experience unalloyed. We welcome guests from all around the world, ensuring each stay is truly memorable.
               </motion.p>
-              
+
               {/* Animated Feature Cards */}
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 {[
-                  ['Authentic Experience', 'Immersive wildlife encounters'], 
+                  ['Authentic Experience', 'Immersive wildlife encounters'],
                   ['Luxury Comfort', 'Premium amenities & service']
                 ].map(([t, s], idx) => (
-                  <motion.div 
+                  <motion.div
                     key={t}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -386,7 +395,7 @@ export default function App() {
                     whileHover={{ y: -4, scale: 1.02 }}
                     className="flex items-start gap-3 bg-forest-900/50 p-4 rounded-2xl border border-forest-800 hover:border-gold-500/30 transition-all duration-300"
                   >
-                    <motion.div 
+                    <motion.div
                       whileHover={{ rotate: 360, scale: 1.2 }}
                       transition={{ duration: 0.5 }}
                       className="w-6 h-6 bg-gold-500 flex items-center justify-center shrink-0 mt-0.5 rounded-lg"
@@ -402,20 +411,20 @@ export default function App() {
                   </motion.div>
                 ))}
               </div>
-              
+
               {/* Animated CTA */}
-              <motion.a 
-                href="/about" 
+              <motion.a
+                href="/about"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.7, duration: 0.6 }}
-                whileHover={{ x: 8, scale: 1.02 }} 
+                whileHover={{ x: 8, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-3 text-gold-400 font-bold text-sm tracking-[0.2em] uppercase group"
               >
                 Discover Our Story
-                <motion.span 
+                <motion.span
                   className="w-10 h-px bg-gold-400 group-hover:w-16 transition-all duration-300"
                   animate={{ scaleX: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
@@ -432,11 +441,15 @@ export default function App() {
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Amenities</p>
-            <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">During Your Stay</motion.h2></div>
+            <div className="overflow-hidden">
+              {/* Large Hero-Style Title */}
+              <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                During your Stay<br />
+              </h2>
+            </div>
             <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
-          
+
           {/* Amenities Slider */}
           <div className="relative max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
@@ -449,18 +462,18 @@ export default function App() {
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
               >
                 {/* Image */}
-                <motion.div 
+                <motion.div
                   className="relative overflow-hidden rounded-3xl h-[400px] lg:h-[500px] group"
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <img 
-                    src={services[activeAmenity].img} 
+                  <img
+                    src={services[activeAmenity].img}
                     alt={services[activeAmenity].title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent" />
-                  <motion.div 
+                  <motion.div
                     className="absolute top-6 left-6 w-20 h-20 bg-forest-900/80 backdrop-blur-sm border-2 border-gold-400 rounded-2xl flex items-center justify-center"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                   >
@@ -470,7 +483,7 @@ export default function App() {
                     })()}
                   </motion.div>
                 </motion.div>
-                
+
                 {/* Content */}
                 <div className="space-y-6">
                   <div>
@@ -483,18 +496,17 @@ export default function App() {
                       {services[activeAmenity].desc}
                     </p>
                   </div>
-                  
+
                   {/* Dots Indicator */}
                   <div className="flex gap-2 pt-4">
                     {services.map((_, idx) => (
                       <button
                         key={idx}
                         onClick={() => setActiveAmenity(idx)}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                          idx === activeAmenity 
-                            ? 'w-12 bg-gold-400' 
-                            : 'w-6 bg-forest-700 hover:bg-gold-400/50'
-                        }`}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeAmenity
+                          ? 'w-12 bg-gold-400'
+                          : 'w-6 bg-forest-700 hover:bg-gold-400/50'
+                          }`}
                       />
                     ))}
                   </div>
@@ -528,8 +540,12 @@ export default function App() {
         <div className="container mx-auto px-6">
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Accommodation</p>
-            <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">Our Rooms</motion.h2></div>
+            <div className="overflow-hidden">
+              {/* Large Hero-Style Title */}
+              <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                Our Rooms<br />
+              </h2>
+            </div>
             <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
           <StaggerParent className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
@@ -550,7 +566,7 @@ export default function App() {
                 <div className="p-8">
                   <h3 className="font-heading text-4xl text-cream-100 font-bold mb-4">{room.name}</h3>
                   <p className="text-cream-300 text-base leading-relaxed mb-6">{room.desc}</p>
-                  <motion.a href={`/rooms/${room.slug}`} 
+                  <motion.a href={`/rooms/${room.slug}`}
                     className="inline-flex items-center gap-3 px-8 py-4 bg-gold-500/10 border-2 border-gold-500 text-gold-400 text-sm tracking-[0.15em] uppercase font-bold rounded-xl group/link hover:bg-gold-500 hover:text-forest-950 transition-all"
                     whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 300 }}>
                     View Details
@@ -569,8 +585,12 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-14">
             <Reveal>
               <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-3">Gallery</p>
-              <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-                className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">Our Gallery</motion.h2></div>
+              <div className="overflow-hidden">
+                {/* Large Hero-Style Title */}
+                <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                  Our Gallery
+                </h2>
+              </div>
               <div className="w-12 h-px bg-gold-400 mt-5" />
             </Reveal>
             <Reveal delay={0.15}>
@@ -584,26 +604,26 @@ export default function App() {
             {galleryImages.map((img, idx) => (
               <motion.a key={idx} href="/gallery" variants={staggerItem}
                 className="relative overflow-hidden group aspect-square block rounded-2xl shadow-lg"
-                whileHover={{ y: -8, scale: 1.03, rotateY: 2, rotateX: 2 }} 
+                whileHover={{ y: -8, scale: 1.03, rotateY: 2, rotateX: 2 }}
                 transition={{ type: 'spring', stiffness: 250, damping: 20 }}>
                 <motion.img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover"
                   whileHover={{ scale: 1.15 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileHover={{ opacity: 1, y: 0 }}
                   className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                  <motion.span 
+                  <motion.span
                     className="text-white font-heading text-xl tracking-wider">
                     Gallery
                   </motion.span>
-                  <motion.div 
+                  <motion.div
                     whileHover={{ scale: 1.2, rotate: 45 }}
                     className="w-8 h-8 rounded-full bg-gold-500/90 flex items-center justify-center">
                     <ArrowRight size={16} className="text-forest-950" />
                   </motion.div>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   whileHover={{ scale: 1 }}
                   transition={{ duration: 0.3, ease: 'backOut' }}
@@ -622,8 +642,12 @@ export default function App() {
         <div className="relative container mx-auto px-6">
           <Reveal className="text-center mb-16">
             <p className="text-gold-400 text-xs tracking-[0.4em] uppercase font-medium mb-4">Testimonials</p>
-            <div className="overflow-hidden"><motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.85 }}
-              className="font-heading text-6xl md:text-7xl lg:text-8xl text-cream-100 font-bold">What Our Guests Say</motion.h2></div>
+            <div className="overflow-hidden">
+              {/* Large Hero-Style Title */}
+              <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                What Our Guests Say
+              </h2>
+            </div>
             <div className="w-16 h-px bg-gold-400 mx-auto mt-6" />
           </Reveal>
           <Reveal className="max-w-2xl mx-auto text-center">
@@ -656,11 +680,13 @@ export default function App() {
           <Reveal>
             <p className="text-gold-400 text-xs tracking-[0.5em] uppercase font-medium mb-5">Ready for an Adventure?</p>
             <div className="overflow-hidden mb-6">
-              <motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-bold leading-tight text-shadow-strong">
-                Book Your Stay at<br />
-                <em className="text-gold-400 not-italic text-shadow-gold">Pench Tiger Planet</em>
-              </motion.h2>
+              {/* Large Hero-Style Title */}
+              <h2 className="font-heading text-[clamp(40px,5vw,72px)] text-cream-100 font-bold leading-[1.1] mb-4">
+                Book your Stay at<br />
+                <em className="text-gold-400 italic text-[clamp(48px,7vw,96px)] block mt-2">
+                  Pench Tiger Planet
+                </em>
+              </h2>
             </div>
             <p className="text-cream-100 text-lg max-w-2xl mx-auto mb-12 text-shadow">
               Experience the magic of the jungle, the warmth of our hospitality, and memories that last a lifetime.
