@@ -247,51 +247,180 @@ export default function App() {
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Image Side with Animations */}
             <Reveal direction="left" className="relative order-2 lg:order-1">
-              <div className="relative overflow-hidden">
-                <img src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg" alt="About Pench Tiger Planet" className="w-full aspect-[4/3] object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/20 to-transparent" />
-              </div>
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}
-                className="absolute -bottom-5 -right-5 bg-gold-500 text-forest-950 p-5 hidden md:block cursor-default">
-                <p className="font-heading text-3xl font-bold leading-none">4.8</p>
-                <div className="flex gap-0.5 my-1">{[...Array(5)].map((_, i) => <Star key={i} size={10} className="fill-forest-950" />)}</div>
-                <p className="text-[10px] font-semibold tracking-widest uppercase">Rating</p>
+              <motion.div 
+                className="relative overflow-hidden rounded-3xl group"
+                whileHover={{ scale: 1.02, rotateY: 2 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <motion.img 
+                  src="https://www.penchtigerplanet.com/assets/img/about/abt.jpg" 
+                  alt="About Pench Tiger Planet" 
+                  className="w-full aspect-[4/3] object-cover"
+                  whileHover={{ scale: 1.08 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/40 via-transparent to-transparent group-hover:from-forest-950/60 transition-all duration-500" />
               </motion.div>
-              <div className="absolute -top-3 -left-3 w-14 h-14 border-t-2 border-l-2 border-gold-400" />
-              <div className="absolute -bottom-3 -right-3 w-14 h-14 border-b-2 border-r-2 border-gold-400 hidden md:block" />
+              
+              {/* Animated Rating Badge */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6, type: 'spring', stiffness: 200 }}
+                whileHover={{ scale: 1.08, rotate: 3 }}
+                className="absolute -bottom-6 -right-6 bg-gold-500 text-forest-950 p-6 hidden md:block cursor-default rounded-2xl shadow-2xl"
+              >
+                <motion.p 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                  className="font-heading text-4xl font-bold leading-none mb-1"
+                >
+                  4.8
+                </motion.p>
+                <div className="flex gap-0.5 my-2">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.7 + (i * 0.05), duration: 0.3, type: 'spring' }}
+                    >
+                      <Star size={12} className="fill-forest-950" />
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="text-[10px] font-bold tracking-widest uppercase">Guest Rating</p>
+              </motion.div>
+              
+              {/* Decorative Corner Elements - Animated */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-gold-400 rounded-tl-2xl"
+              />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-gold-400 rounded-br-2xl hidden md:block"
+              />
             </Reveal>
 
+            {/* Content Side with Animations */}
             <Reveal direction="right" className="order-1 lg:order-2">
-              <p className="text-gold-400 text-[10px] tracking-[0.4em] uppercase font-medium mb-3">About Us</p>
-              <div className="overflow-hidden mb-2">
-                <motion.h2 initial={{ y: '110%' }} whileInView={{ y: '0%' }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-heading text-4xl md:text-5xl text-cream-100 font-light leading-tight">
+              <motion.p 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-gold-400 text-xs tracking-[0.4em] uppercase font-semibold mb-4"
+              >
+                About Us
+              </motion.p>
+              
+              {/* Large Hero-Style Title */}
+              <div className="overflow-hidden mb-4">
+                <motion.h2 
+                  initial={{ y: '110%' }} 
+                  whileInView={{ y: '0%' }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-heading text-5xl md:text-6xl lg:text-7xl text-cream-100 font-bold leading-tight"
+                >
                   A Sanctuary Where<br />
                   <em className="text-gold-400 not-italic">Wilderness Meets Luxury</em>
                 </motion.h2>
               </div>
-              <div className="w-10 h-px bg-gold-400 mt-4 mb-7" />
-              <p className="text-cream-300 leading-relaxed mb-5 text-sm">
+              
+              <motion.div 
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="w-16 h-1 bg-gold-400 rounded-full mt-5 mb-8"
+              />
+              
+              {/* Animated Paragraphs */}
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="text-cream-300 leading-relaxed mb-5 text-base"
+              >
                 Bestowing excellent hospitality to its every category of guests, Pench Tiger Planet reflects the culture and ethos of its location. With the perfect fusion of contemporary decor in the sumptuous interiors, we have set the bar of services much higher than the expectations of our guests.
-              </p>
-              <p className="text-cream-300 leading-relaxed mb-8 text-sm">
+              </motion.p>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-cream-300 leading-relaxed mb-9 text-base"
+              >
                 The concept of intuitive anticipatory service makes the guest experience unalloyed. We welcome guests from all around the world, ensuring each stay is truly memorable.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6 mb-9">
-                {[['Authentic Experience', 'Immersive wildlife encounters'], ['Luxury Comfort', 'Premium amenities & service']].map(([t, s]) => (
-                  <div key={t} className="flex items-start gap-3">
-                    <div className="w-5 h-5 bg-gold-500 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-3 h-3 text-forest-950" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" /></svg>
+              </motion.p>
+              
+              {/* Animated Feature Cards */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                {[
+                  ['Authentic Experience', 'Immersive wildlife encounters'], 
+                  ['Luxury Comfort', 'Premium amenities & service']
+                ].map(([t, s], idx) => (
+                  <motion.div 
+                    key={t}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + (idx * 0.1), duration: 0.6 }}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    className="flex items-start gap-3 bg-forest-900/50 p-4 rounded-2xl border border-forest-800 hover:border-gold-500/30 transition-all duration-300"
+                  >
+                    <motion.div 
+                      whileHover={{ rotate: 360, scale: 1.2 }}
+                      transition={{ duration: 0.5 }}
+                      className="w-6 h-6 bg-gold-500 flex items-center justify-center shrink-0 mt-0.5 rounded-lg"
+                    >
+                      <svg className="w-3.5 h-3.5 text-forest-950" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
+                      </svg>
+                    </motion.div>
+                    <div>
+                      <p className="text-cream-100 font-semibold text-base mb-1">{t}</p>
+                      <p className="text-cream-500 text-sm">{s}</p>
                     </div>
-                    <div><p className="text-cream-100 font-medium text-sm">{t}</p><p className="text-cream-500 text-xs mt-0.5">{s}</p></div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-              <motion.a href="/about" whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300 }}
-                className="inline-flex items-center gap-3 text-gold-400 font-medium text-xs tracking-[0.2em] uppercase group">
+              
+              {/* Animated CTA */}
+              <motion.a 
+                href="/about" 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+                whileHover={{ x: 8, scale: 1.02 }} 
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-3 text-gold-400 font-bold text-sm tracking-[0.2em] uppercase group"
+              >
                 Discover Our Story
-                <motion.span className="w-8 h-px bg-gold-400 group-hover:w-12 transition-all duration-300" />
+                <motion.span 
+                  className="w-10 h-px bg-gold-400 group-hover:w-16 transition-all duration-300"
+                  animate={{ scaleX: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                />
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </motion.a>
             </Reveal>
           </div>
