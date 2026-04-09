@@ -112,51 +112,197 @@ export default function RoomsPage() {
       {/* Rooms */}
       <section className="py-24 lg:py-32 bg-forest-950">
         <div className="container mx-auto px-6">
-          <div className="space-y-20">
+          <div className="space-y-24">
             {rooms.map((room, i) => (
-              <div key={room.slug} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                i % 2 !== 0 ? 'lg:[&>div:first-child]:order-2' : ''
-              }`}>
-                <Reveal direction={i % 2 === 0 ? 'left' : 'right'}>
-                  <div className="relative overflow-hidden group">
-                    <motion.img whileHover={{ scale: 1.05 }} transition={{ duration: 0.7 }}
-                      src={room.img} alt={room.name} className="w-full aspect-[4/3] object-cover" />
-                    <div className="absolute top-4 right-0 bg-gold-500 text-forest-950 px-5 py-2">
-                      <p className="font-heading text-xl font-bold">{room.price}</p>
-                      <p className="text-[10px] tracking-widest uppercase">Per Night</p>
-                    </div>
-                    <div className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-gold-400" />
-                  </div>
-                </Reveal>
-                <Reveal direction={i % 2 === 0 ? 'right' : 'left'} delay={0.2}>
-                  <div>
-                    <span className="text-gold-400 text-[10px] tracking-[0.35em] uppercase mb-3 block">{room.tagline}</span>
-                    <h2 className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-4">{room.name}</h2>
-                    <div className="w-12 h-0.5 bg-gold-400 mb-6" />
-                    <p className="text-cream-300 text-sm leading-relaxed mb-8">{room.desc}</p>
-                    <div className="grid grid-cols-2 gap-2 mb-8">
-                      {room.features.map((f) => (
-                        <div key={f} className="flex items-center gap-2 text-cream-300 text-sm">
-                          <Check className="text-gold-400 shrink-0" size={14} />
-                          {f}
+              <motion.div 
+                key={room.slug} 
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                  i % 2 !== 0 ? 'lg:[&>div:first-child]:order-2' : ''
+                }`}
+              >
+                {/* Image Side */}
+                <div className="relative">
+                  <motion.div 
+                    className="relative overflow-hidden rounded-3xl group"
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {/* Image without zoom */}
+                    <img 
+                      src={room.img} 
+                      alt={room.name} 
+                      className="w-full aspect-[4/3] object-cover"
+                    />
+                    
+                    {/* Animated overlay */}
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.4 }}
+                      className="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-forest-950/20 to-transparent flex items-end justify-start p-8"
+                    >
+                      <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        whileHover={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1, duration: 0.4 }}
+                      >
+                        <p className="text-cream-100 text-sm font-semibold mb-1">Explore {room.name}</p>
+                        <div className="flex items-center gap-2 text-gold-400">
+                          <span className="text-xs tracking-wider uppercase">View Details</span>
+                          <ArrowRight size={14} />
                         </div>
-                      ))}
-                    </div>
-                    <div className="flex gap-4">
-                      <motion.div whileHover={{ x: 10 }}>
-                        <Link href={`/rooms/${room.slug}`} className="inline-flex items-center gap-2 text-gold-400 text-xs tracking-[0.2em] uppercase font-medium group">
-                          View Details <motion.span className="w-6 h-px bg-gold-400 group-hover:w-10 transition-all" />
-                        </Link>
                       </motion.div>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                        <Link href="/booking" className="btn-gold px-6 py-2.5 rounded-xl shadow-lg bg-gold-500 text-forest-950 text-xs font-bold tracking-[0.15em] uppercase hover:bg-gold-400 transition-all">
-                          Book Now
-                        </Link>
+                    </motion.div>
+                    
+                    {/* Price Badge */}
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                      whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4, duration: 0.5, type: 'spring', stiffness: 200 }}
+                      whileHover={{ scale: 1.08, rotate: -3 }}
+                      className="absolute top-6 right-6 bg-gold-500 text-forest-950 px-6 py-3 rounded-2xl shadow-2xl cursor-default"
+                    >
+                      <p className="font-heading text-2xl font-bold leading-none">{room.price}</p>
+                      <p className="text-[10px] tracking-widest uppercase mt-1 font-bold">Per Night</p>
+                    </motion.div>
+                    
+                    {/* Decorative corner */}
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
+                      className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-gold-400 rounded-tl-2xl"
+                    />
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.6, duration: 0.5 }}
+                      className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-gold-400 rounded-br-2xl"
+                    />
+                  </motion.div>
+                </div>
+                
+                {/* Content Side */}
+                <div>
+                  <motion.span 
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    className="text-gold-400 text-xs tracking-[0.35em] uppercase mb-4 block font-semibold"
+                  >
+                    {room.tagline}
+                  </motion.span>
+                  
+                  <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="font-heading text-5xl md:text-6xl text-cream-100 font-bold mb-5 leading-tight"
+                  >
+                    {room.name}
+                  </motion.h2>
+                  
+                  <motion.div 
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="w-16 h-1 bg-gold-400 rounded-full mb-7"
+                  />
+                  
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.6, duration: 0.6 }}
+                    className="text-cream-300 text-base leading-relaxed mb-8"
+                  >
+                    {room.desc}
+                  </motion.p>
+                  
+                  {/* Features with staggered animation */}
+                  <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={{
+                      hidden: {},
+                      visible: {
+                        transition: {
+                          staggerChildren: 0.08,
+                          delayChildren: 0.7
+                        }
+                      }
+                    }}
+                    className="grid grid-cols-2 gap-3 mb-10"
+                  >
+                    {room.features.map((f) => (
+                      <motion.div 
+                        key={f}
+                        variants={{
+                          hidden: { opacity: 0, x: -20 },
+                          visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+                        }}
+                        whileHover={{ x: 4, scale: 1.02 }}
+                        className="flex items-center gap-2.5 text-cream-300 text-sm bg-forest-900/50 px-3 py-2 rounded-xl border border-forest-800 hover:border-gold-500/30 transition-all"
+                      >
+                        <motion.div
+                          whileHover={{ rotate: 360, scale: 1.2 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Check className="text-gold-400 shrink-0" size={16} />
+                        </motion.div>
+                        <span className="font-medium">{f}</span>
                       </motion.div>
-                    </div>
-                  </div>
-                </Reveal>
-              </div>
+                    ))}
+                  </motion.div>
+                  
+                  {/* Action Buttons */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.9, duration: 0.6 }}
+                    className="flex flex-col sm:flex-row gap-4"
+                  >
+                    <motion.div whileHover={{ x: 8 }} whileTap={{ scale: 0.98 }}>
+                      <Link 
+                        href={`/rooms/${room.slug}`} 
+                        className="inline-flex items-center gap-3 text-gold-400 text-sm tracking-[0.2em] uppercase font-bold group"
+                      >
+                        View Details 
+                        <motion.span 
+                          className="w-8 h-px bg-gold-400 group-hover:w-12 transition-all"
+                          animate={{ scaleX: [1, 1.2, 1] }}
+                          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                        />
+                        <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </motion.div>
+                    
+                    <motion.div 
+                      whileHover={{ scale: 1.05, y: -2 }} 
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Link 
+                        href="/booking" 
+                        className="btn-gold px-8 py-3.5 rounded-xl shadow-xl bg-gold-500 text-forest-950 text-sm font-bold tracking-[0.15em] uppercase hover:bg-gold-400 transition-all inline-block text-center"
+                      >
+                        Book Now
+                      </Link>
+                    </motion.div>
+                  </motion.div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
